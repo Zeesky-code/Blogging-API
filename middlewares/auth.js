@@ -31,10 +31,11 @@ passport.use(
         {
             usernameField: 'email',
             passwordField: 'password',
+            passReqToCallback: true
             
         },
             
-        async (email, password,done) => {
+        async (req,email, password,done) => {
             try {
                 const first_name = req.body.first_name
                 const last_name = req.body.last_name

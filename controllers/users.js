@@ -5,7 +5,6 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 async function userSignup(req,res,next){
-    console.log("controller started working")
     passport.authenticate('signup', {session:false},(req,res,next)=>{
         res.json({
             message: 'Signup successful',
@@ -13,7 +12,6 @@ async function userSignup(req,res,next){
         })
         console.log(user.first_name)
     })
-    console.log("controller done working")
 } 
 
 
