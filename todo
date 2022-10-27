@@ -1,0 +1,4 @@
+- create user schema
+- create signup and login routes with jwt
+- create blog schema
+- write tests
