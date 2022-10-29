@@ -6,11 +6,14 @@ require('dotenv').config();
 
 async function userSignup(req,res,next){
     passport.authenticate('signup', {session:false},(req,res,next)=>{
-        res.json({
-            message: 'Signup successful',
-            user: req.user
-        })
-        console.log(user.first_name)
+        try{
+            res.json({
+                message: 'Signup successful',
+                user: req.user
+            })
+        }catch(error){
+            return next(err)
+        }
     })
 } 
 
