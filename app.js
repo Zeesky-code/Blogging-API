@@ -8,7 +8,7 @@ require('dotenv').config()
 require('./middlewares/auth')
 
 //routes
-const userRoute = require('./routes/users')
+const userRoute = require('./routes/user.route')
 
 
 const app = express()
