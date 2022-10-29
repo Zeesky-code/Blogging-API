@@ -5,16 +5,15 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 async function userSignup(req,res,next){
-    passport.authenticate('signup', {session:false},(req,res,next)=>{
-        try{
-            res.json({
-                message: 'Signup successful',
-                user: req.user
-            })
-        }catch(error){
-            return next(err)
-        }
-    })
+    try{
+        res.json({
+            message: 'Signup successful',
+            user: req.user
+        })
+    }catch(error){
+        return next(err)
+    }
+
 } 
 
 
