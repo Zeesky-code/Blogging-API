@@ -60,7 +60,6 @@ passport.use(
             passwordField: 'password'
         },
         async (email, password, done) => {
-            console.log("passport started working")
             try {
                 const user = await UserModel.findOne({ email });
 

@@ -29,7 +29,10 @@ app.use(passport.initialize());
 app.use('/user', userRoute)
 
 app.get('/', (req,res)=>{
-    res.status(200).send("Welcome to Blogging API")
+    res.status(200).json({
+        status: "true",
+        message: "Welcome to Blogging API"
+    })
 })
 
 

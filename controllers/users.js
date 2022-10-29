@@ -27,15 +27,17 @@ async function userLogin(req,res, next){
                 const error = new Error('Username or password is incorrect')
                 return next(error)
             }
-            req.login(user, {session:false},
-                async (error) =>{
+            req.login(user, {session:false}, async (error) =>{
                     if (error) return next(error)
 
                     const body = {_id: user._id, email: user.email};
 
-                    const token = jwt.sign({ user: body }, process.env.JWT_SECRET);
+                    const token = jwt.sign({ user: body },  process.env.JWT_SECRET, {expiresIn: '1hr'});
 
-                    return res.json({ token });
+                    return res.status(200).json({
+                        "message": user.email + " signed in successfully",
+                        token 
+                    });
 
                 }
             )
