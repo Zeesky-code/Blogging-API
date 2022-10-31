@@ -17,13 +17,13 @@ async function createBlog(req,res, next){
         author: user._id
     })
 
-    const savedBlog = await blog.save()
-    user.blogs = user.blogs.concat(savedBlog._id)
+    const newBlog = await blog.save()
+    user.blogs = user.blogs.concat(newBlog._id)
     await user.save()
 
     res.status(201).json({
         message: "Blog saved successfully",
-        savedBlog
+        newBlog
     })
 }
 
