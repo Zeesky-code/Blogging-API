@@ -20,8 +20,17 @@ const UserSchema = new Schema({
     password: {
         type: String,
         required: true
-    }
-});
+    },
+    blogs:[
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Blog'
+        }
+    ]
+},
+{collection:'User'}
+);
+
 
 UserSchema.pre(
     'save',
@@ -42,6 +51,6 @@ UserSchema.methods.isValidPassword = async function(password) {
 }
 
 
-const UserModel = mongoose.model('users', UserSchema);
+const UserModel = mongoose.model('User', UserSchema);
 
 module.exports = UserModel;
