@@ -48,6 +48,17 @@ async function createBlog(req,res, next){
     
 }
 
+async function getBlogs(req,res,next){
+    Blog.find()
+        .then(blogs => {
+            res.status(200).json(blogs)
+        })
+        .catch(err => {
+            console.log(err)
+            res.send(err)
+        })
+}
 module.exports = {
-    createBlog
+    createBlog,
+    getBlogs
 }

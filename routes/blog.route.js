@@ -5,6 +5,7 @@ const blogRouter = express.Router()
 const blogController = require('../controllers/blog.controller')
 
 blogRouter.post('/create', blogController.createBlog)
+blogRouter.get('/', blogController.getBlogs)
 
 
 module.exports = blogRouter
