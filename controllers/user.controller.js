@@ -16,14 +16,14 @@ async function userSignup(req,res,next){
 
 
 async function userLogin(req,res, next){
-    passport.authenticate('login',async(err,user,info) =>{
+    passport.authenticate('login',async(err,user,message) =>{
         try{
             if (err){
                 return next(err);
             }
             if (!user){
                 const error = new Error('Username or password is incorrect')
-                return next(error)
+                return res.status(401).send(message)
             }
             req.login(user, {session:false}, async (error) =>{
                     if (error) return next(error)
@@ -32,10 +32,7 @@ async function userLogin(req,res, next){
 
                     const token = jwt.sign({ user: body },  process.env.JWT_SECRET, {expiresIn: '1hr'});
 
-                    return res.status(200).json({
-                        "message": user.email + " signed in successfully",
-                        token 
-                    });
+                    return res.status(200).json({message, token});
 
                 }
             )

@@ -70,7 +70,7 @@ passport.use(
                 const validate = await user.isValidPassword(password);
 
                 if (!validate) {
-                    return done(null, false, { message: 'Wrong Password' });
+                    return done(null, false, { message: 'Username or password is incorrect' });
                 }
 
                 return done(null, user, { message: 'Logged in Successfully' });
