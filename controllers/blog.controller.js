@@ -3,7 +3,8 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 const Blog  = require('../models/blog.model')
-const User =  require('../models/user.model')
+const User =  require('../models/user.model');
+const { query } = require('express');
 
 const getTokenFrom =  req =>{
     const authorization = req.get('authorization')
@@ -17,7 +18,14 @@ async function createBlog(req,res, next){
     const content = req.body
 
     const token = getTokenFrom(req)
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET)
+    try{
+        const decodedToken = jwt.verify(token, process.env.JWT_SECRET)
+    }catch(error){
+        return res.status(401).json({
+            error: "Token expired. Please try to Log In again"
+        })
+    }
+    
     if (!decodedToken){
         return res.status.json({error: 'Invalid or Missing Token'})
     }
@@ -49,16 +57,44 @@ async function createBlog(req,res, next){
 }
 
 async function getBlogs(req,res,next){
+
+    
+    // on hold
+    
     Blog.find()
-        .then(blogs => {
-            res.status(200).json(blogs)
+        .then(blogs =>{
+            if (!req.query.page) {
+                req.query.page = 1
+            }
+            const page = req.query.page * 1 || 1;
+            const limit = req.query.limit * 1 || 100;
+            const skip = (page - 1) * limit;
+            blogs = blogs.skip(skip).limit(limit);
+
+            const pageLength = orders.reduce((acc, cur) => (acc += 1), 0);
+            return res.json({ status: 'success', pageLength, blogs });
         })
-        .catch(err => {
-            console.log(err)
-            res.send(err)
+        .catch(err =>{
+            return err
         })
+
+}
+
+async function getOneBlog(req,res,next){
+    const id = req.params.id
+    console.log(id)
+    const blog = await Blog.findById(id)
+    if (!blog){
+        return res.status(404).json({
+            message: "Blog Not Found"
+        })
+    }
+    blog.read_count +=1
+    await blog.save()
+    return res.status(200).json(blog)
 }
 module.exports = {
     createBlog,
-    getBlogs
+    getBlogs,
+    getOneBlog
 }

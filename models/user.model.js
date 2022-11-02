@@ -36,6 +36,10 @@ UserSchema.pre(
     'save',
     async function (next) {
         const user = this;
+        
+        //to stop unnecessary password rehashing
+        if (!user.isModified('password')){return next()}
+
         const hash = await bcrypt.hash(this.password, 10);
 
         this.password = hash;
@@ -46,6 +50,7 @@ UserSchema.pre(
 // You will also need to make sure that the user trying to log in has the correct credentials. Add the following new method:
 UserSchema.methods.isValidPassword = async function(password) {
     const user = this;
+    
     const compare = await bcrypt.compare(password, user.password);
     return compare;
 }

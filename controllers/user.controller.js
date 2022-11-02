@@ -22,7 +22,6 @@ async function userLogin(req,res, next){
                 return next(err);
             }
             if (!user){
-                const error = new Error('Username or password is incorrect')
                 return res.status(401).send(message)
             }
             req.login(user, {session:false}, async (error) =>{
