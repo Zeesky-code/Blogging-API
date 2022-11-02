@@ -20,37 +20,38 @@ async function createBlog(req,res, next){
     const token = getTokenFrom(req)
     try{
         const decodedToken = jwt.verify(token, process.env.JWT_SECRET)
+        if (!decodedToken){
+            return res.status.json({error: 'Invalid or Missing Token'})
+        }
+        const user = await User.findById(decodedToken.user._id)
+    
+    
+        const blog = new Blog({
+            title: content.title,
+            description: content.description,
+            body: content.body,
+            author: user._id
+        })
+        try{
+            const savedBlog = await blog.save()
+            user.blogs = user.blogs.concat(savedBlog._id)
+            await user.save()
+            res.status(201).json({
+                message: "Blog saved successfully",
+                savedBlog
+            })
+        }catch{
+            res.status(400).json({
+                "error": "Blog Titles must be unique"
+            })
+        }
+        
     }catch(error){
         return res.status(401).json({
             error: "Token expired. Please try to Log In again"
         })
     }
     
-    if (!decodedToken){
-        return res.status.json({error: 'Invalid or Missing Token'})
-    }
-    const user = await User.findById(decodedToken.user._id)
-
-
-    const blog = new Blog({
-        title: content.title,
-        description: content.description,
-        body: content.body,
-        author: user._id
-    })
-    try{
-        const savedBlog = await blog.save()
-        user.blogs = user.blogs.concat(savedBlog._id)
-        await user.save()
-        res.status(201).json({
-            message: "Blog saved successfully",
-            savedBlog
-        })
-    }catch{
-        res.status(400).json({
-            "error": "Blog Titles must be unique"
-        })
-    }
     
 
     
@@ -82,7 +83,6 @@ async function getBlogs(req,res,next){
 
 async function getOneBlog(req,res,next){
     const id = req.params.id
-    console.log(id)
     const blog = await Blog.findById(id)
     if (!blog){
         return res.status(404).json({
