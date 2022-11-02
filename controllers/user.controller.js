@@ -16,7 +16,6 @@ async function userSignup(req,res,next){
 
 
 async function userLogin(req,res, next){
-    console.log(req.body)
     passport.authenticate('login',async(err,user,info) =>{
         try{
             if (err){
