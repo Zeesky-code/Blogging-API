@@ -4,6 +4,10 @@ require('dotenv').config();
 
 const Blog  = require('../models/blog.model')
 const User =  require('../models/user.model');
+
+//for reading time
+const readingTime =  require('../utils/utils')
+
 const { query } = require('express');
 
 const getTokenFrom =  req =>{
@@ -17,8 +21,10 @@ const getTokenFrom =  req =>{
 async function createBlog(req,res, next){
     const content = req.body
 
+
     const token = getTokenFrom(req)
     try{
+        // fix: expired token error showing for all types of errors
         const decodedToken = jwt.verify(token, process.env.JWT_SECRET)
         if (!decodedToken){
             return res.status.json({error: 'Invalid or Missing Token'})
@@ -30,7 +36,9 @@ async function createBlog(req,res, next){
             title: content.title,
             description: content.description,
             body: content.body,
-            author: user._id
+            tags: content.tag || '',
+            author: user._id,
+            reading_time: readingTime(content.body)
         })
         try{
             const savedBlog = await blog.save()
