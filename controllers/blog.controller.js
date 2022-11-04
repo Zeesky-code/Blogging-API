@@ -79,7 +79,6 @@ async function deleteBlog(req,res,next){
     const id = req.params.id
     try{
         const blog = await Blog.findById(id)
-        console.log(blog)
         if (user.id == blog.author){
             await Blog.deleteOne({_id : id})
             return res.status(200).json({
@@ -107,14 +106,14 @@ async function deleteBlog(req,res,next){
 async function updateBlog(req,res,next){
     const user = req.user
     const id = req.params.id
+    const newBlog = req.body
     try{
-        const blog = await Blog.findById()
-        console.log(blog)
+        const blog = await Blog.findById(id)
         if (user.id == blog.author){
-            await Blog.deleteOne({_id : id})
+            await Blog.findByIdAndUpdate(id, newBlog, { new: true })
             return res.status(200).json({
                 state: "true",
-                message: "Blog deleted successfully"
+                message: "Blog updated successfully"
             })
         }else{
             return res.status(403).json({
@@ -124,7 +123,6 @@ async function updateBlog(req,res,next){
         }
 
     }catch(err){
-        console.log(err)
         return res.status(403).json({
             state: "false",
             message: "Blog not found"
