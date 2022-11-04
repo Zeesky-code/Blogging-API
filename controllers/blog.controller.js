@@ -16,7 +16,6 @@ const { VirtualType } = require('mongoose');
 async function createBlog(req,res, next){
     const content = req.body
 
-    
     const blog = new Blog({
         title: content.title,
         description: content.description,
@@ -35,6 +34,7 @@ async function createBlog(req,res, next){
         })
     }catch{
         res.status(400).json({
+            "state": "false",
             "error": "Blog Titles must be unique"
         })
     }
@@ -44,7 +44,7 @@ async function createBlog(req,res, next){
 
 async function getBlogs(req,res,next){
 
-    const limit = +req.query.limit || 100;
+    const limit = 20 || 100;
     const page = +req.query.page || 1;
     const skip = limit * (page - 1);
     const blogs =  await Blog.find({state: 'published'}).skip(skip).limit(limit);
@@ -63,16 +63,38 @@ async function getOneBlog(req,res,next){
             message: "Blog Not Found"
         })
     }
+    if (blog.state != 'published'){
+        return res.status(403).json({
+            status: false,
+            error: 'Requested article is not published'
+        })
+    }
     blog.read_count +=1
     await blog.save()
     return res.status(200).json(blog)
 }
 
-async function updateBlog(req,res,next){
+async function deleteBlog(req,res,next){
+    const id = req.params.id
+    
+    try{
+        await Blog.deleteOne({_id : id})
+        return res.status(200).json({
+            state: "true",
+            message: "Blog deleted successfully"
+        })
+    }catch(err){
+        return res.status(403).json({
+            state: "false",
+            message: "Blog not found"
+        })
+    }
+    
 
 }
 module.exports = {
     createBlog,
     getBlogs,
-    getOneBlog
+    getOneBlog,
+    deleteBlog
 }

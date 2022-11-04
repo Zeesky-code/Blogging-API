@@ -1,6 +1,9 @@
+const { TokenExpiredError, JsonWebTokenError } = require('jsonwebtoken');
 const passport = require('passport');
 const localStrategy = require('passport-local').Strategy;
 const UserModel = require('../models/user.model');
+
+const jwt = require('jsonwebtoken');
 
 const JWTstrategy = require('passport-jwt').Strategy;
 const ExtractJWT = require('passport-jwt').ExtractJwt;
@@ -80,7 +83,8 @@ passport.use(
     )
 );
 
-export const protect = async (req, res, next) => {
+
+const protect = async (req, res, next) => {
     const authorization = req.get('authorization')
     let token 
     if (authorization && authorization.toLowerCase().startsWith('bearer')){
@@ -94,12 +98,29 @@ export const protect = async (req, res, next) => {
     try{
         // fix: expired token error showing for all types of errors
         decodedToken = jwt.verify(token, process.env.JWT_SECRET)
-        const user = await User.findById(decodedToken.user._id)
+        const user = await UserModel.findById(decodedToken.user._id)
         req.user = user
         next()
-    }catch(error){
-        return res.status(401).json({
-            error: "Token expired. Please try to Log In again"
-        })
+    }catch(e){
+        if (e instanceof TokenExpiredError){
+            return res.status(401).json({
+                status: "false",
+                error: "Token expired. Please try to Log In again"
+            })
+        }else if (e instanceof JsonWebTokenError){
+            return res.status(401).json({
+                status: "false",
+                error: "Invalid Token"
+            })
+        
+        }else{
+            console.log(e)
+            return res.status(401).json({
+                status: "false",
+                error: "An error occured, please try again"
+            })
+        }
     }
 }
+
+module.exports={protect}

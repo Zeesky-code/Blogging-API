@@ -7,6 +7,7 @@ const blogController = require('../controllers/blog.controller')
 blogRouter.post('/create', auth.protect,blogController.createBlog)
 blogRouter.get('/', blogController.getBlogs)
 blogRouter.get('/:id', blogController.getOneBlog)
+blogRouter.delete('/:id', blogController.deleteBlog)
 
 
 module.exports = blogRouter
