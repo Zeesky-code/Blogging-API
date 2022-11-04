@@ -18,7 +18,7 @@ const blogSchema = new Schema({
         require: true
     },
     tags:{
-        type: Array,
+        type: [String],
     },
     timestamp:{
         type: Date,

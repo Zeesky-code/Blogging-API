@@ -20,7 +20,7 @@ async function createBlog(req,res, next){
         title: content.title,
         description: content.description,
         body: content.body,
-        tags: content.tag ,
+        tags: content.tags ,
         author: req.user._id,
         reading_time: Utils.readingTime(content.body)
     })
@@ -75,15 +75,26 @@ async function getOneBlog(req,res,next){
 }
 
 async function deleteBlog(req,res,next){
+    const user = req.user
     const id = req.params.id
-    
     try{
-        await Blog.deleteOne({_id : id})
-        return res.status(200).json({
-            state: "true",
-            message: "Blog deleted successfully"
-        })
+        const blog = await Blog.findById(id)
+        console.log(blog)
+        if (user.id == blog.author){
+            await Blog.deleteOne({_id : id})
+            return res.status(200).json({
+                state: "true",
+                message: "Blog deleted successfully"
+            })
+        }else{
+            return res.status(403).json({
+                state: "false",
+                message: "You're not authorized to perform this action"
+            })
+        }
+
     }catch(err){
+        console.log(err)
         return res.status(403).json({
             state: "false",
             message: "Blog not found"
@@ -92,9 +103,38 @@ async function deleteBlog(req,res,next){
     
 
 }
+
+async function updateBlog(req,res,next){
+    const user = req.user
+    const id = req.params.id
+    try{
+        const blog = await Blog.findById()
+        console.log(blog)
+        if (user.id == blog.author){
+            await Blog.deleteOne({_id : id})
+            return res.status(200).json({
+                state: "true",
+                message: "Blog deleted successfully"
+            })
+        }else{
+            return res.status(403).json({
+                state: "false",
+                message: "You're not authorized to perform this action"
+            })
+        }
+
+    }catch(err){
+        console.log(err)
+        return res.status(403).json({
+            state: "false",
+            message: "Blog not found"
+        })
+    }
+}
 module.exports = {
     createBlog,
     getBlogs,
     getOneBlog,
-    deleteBlog
+    deleteBlog,
+    updateBlog
 }
