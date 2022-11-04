@@ -80,4 +80,26 @@ passport.use(
     )
 );
 
-
+export const protect = async (req, res, next) => {
+    const authorization = req.get('authorization')
+    let token 
+    if (authorization && authorization.toLowerCase().startsWith('bearer')){
+        token = authorization.substring(7)
+    }
+    
+    if (!token){
+        return res.status(401).json({error: 'Invalid or Missing Token'})
+    }
+    let decodedToken =  null
+    try{
+        // fix: expired token error showing for all types of errors
+        decodedToken = jwt.verify(token, process.env.JWT_SECRET)
+        const user = await User.findById(decodedToken.user._id)
+        req.user = user
+        next()
+    }catch(error){
+        return res.status(401).json({
+            error: "Token expired. Please try to Log In again"
+        })
+    }
+}
