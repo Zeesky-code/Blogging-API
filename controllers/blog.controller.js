@@ -8,10 +8,6 @@ const User =  require('../models/user.model');
 //for reading time
 const Utils =  require('../utils/utils')
 
-const { query } = require('express');
-const { VirtualType } = require('mongoose');
-
-
 
 async function createBlog(req,res, next){
     const content = req.body
@@ -129,10 +125,50 @@ async function updateBlog(req,res,next){
         })
     }
 }
+
+async function getUserBlog(req,res){
+    try{
+        const limit = 20 || 100;
+        const page = +req.query.page || 1;
+        const skip = limit * (page - 1);
+        if (!req.query.state){
+            const blogs =  await Blog.find({ author: req.user.id }).skip(skip).limit(limit)
+            if (!blogs){
+                return res.status(404).json({
+                    status: "false",
+                    message: "Blogs not found"
+                })
+            }
+            return res.status(200).json({
+                status: "true",
+                blogs
+            })
+        }
+        const blogs =  await Blog.find({ author: req.user.id , state: req.query.state}).skip(skip).limit(limit)
+        if (!blogs){
+            return res.status(404).json({
+                status: "false",
+                message: "Blogs not found"
+            })
+        }
+        return res.status(200).json({
+            status: "true",
+            blogs
+        })
+    }catch(error){
+        return res.status(404).json({
+            status: "false",
+            error
+        })
+
+    }
+    
+}
 module.exports = {
     createBlog,
     getBlogs,
     getOneBlog,
     deleteBlog,
-    updateBlog
+    updateBlog,
+    getUserBlog
 }
