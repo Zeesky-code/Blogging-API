@@ -2,25 +2,25 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
-const Blog  = require('../models/blog.model')
-const User =  require('../models/user.model');
+const Blog = require('../models/blog.model')
+
 
 //for reading time
-const Utils =  require('../utils/utils')
+const Utils = require('../utils/utils')
 
 
-async function createBlog(req,res, next){
+async function createBlog(req, res, next) {
     const content = req.body
 
     const blog = new Blog({
         title: content.title,
         description: content.description,
         body: content.body,
-        tags: content.tags ,
+        tags: content.tags,
         author: req.user._id,
         reading_time: Utils.readingTime(content.body)
     })
-    try{
+    try {
         const savedBlog = await blog.save()
         req.user.blogs = req.user.blogs.concat(savedBlog._id)
         await req.user.save()
@@ -28,120 +28,129 @@ async function createBlog(req,res, next){
             message: "Blog saved successfully",
             savedBlog
         })
-    }catch{
+    } catch {
         res.status(400).json({
             "state": "false",
             "error": "Blog Titles must be unique"
         })
     }
 
-    
+
 }
 
-async function getBlogs(req,res,next){
+async function getBlogs(req, res, next) {
+    try {
+        const { page, orderby, search } = req.query
+        const limit = 20
+        const skip = (page - 1) * limit
 
-    const limit = 20;
-    const page = +req.query.page || 1;
-    const skip = limit * (page - 1);
-    const author = req.query.author;
-    const title = req.query.title;
-    const tags = req.query.tags;
-    console.log(req.query)
-    const query = {state: "published"}
-    const sortQuery = {read_count: -1}
-    if (author) {
-        query["author"] = author
+        if (orderby == 'timestamp') {
+            const blog = await Blog.find({ state: 'published' }).limit(limit).skip(skip).sort({ createdAt: 1 })
+            return res.status(200).send(blog)
+        }
+        if (orderby == 'reading_time') {
+            const blog = await Blog.find({ state: 'published' }).limit(limit).skip(skip).sort({ reading_time: 1 })
+            return res.status(200).send(blog)
+        }
+        if (orderby == 'read_count') {
+            const blog = await Blog.find({ state: 'published' }).limit(limit).skip(skip).sort({ read_count: 1 })
+            return res.status(200).send(blog)
+        }
+        const blog = await Blog.find({ state: 'published' }).and({
+            $or: [
+                {
+                    title: { $regex: search, $options: "i" },
+                },
+                {
+                    author: { $regex: search, $options: "i" },
+                },
+                {
+                    tags: { $regex: search, $options: "i" },
+                }
+            ],
+        }).limit(limit).skip(skip)
+        return res.status(200).json({
+            status: "true",
+            blog
+        })
+    }catch(error){
+        console.log(error)
+        return res.status(404).json({
+            status: "false",
+            message: "Blog not Found"
+        })
     }
-    if (title){
-        query["title"] = title
-    }
-    if (tags){
-        query["tags"] = tags
-    }
-    // searchable by author, title and tags
 
-    //sortable  by read count, read time and timestamp.
-    const sort = req.query.sort;
-    if (sort.includes(["asc", "desc"])) {
-        sortQuery["timestamp"] = sort === "desc" ? -1 : 1;
-    }
-
-    const blogs =  await Blog.find(query).sort(sortQuery).skip(skip).limit(limit);
-
-    // on hold
-    return res.status(200).json({
-        blogs
-    })
 }
 
-async function getOneBlog(req,res,next){
+async function getOneBlog(req, res, next) {
     const id = req.params.id
     const blog = await Blog.findById(id)
-    if (!blog){
+    if (!blog) {
         return res.status(404).json({
             message: "Blog Not Found"
         })
     }
-    if (blog.state != 'published'){
+    if (blog.state != 'published') {
         return res.status(403).json({
             status: false,
             error: 'Requested article is not published'
         })
     }
-    blog.read_count +=1
+    blog.read_count += 1
     await blog.save()
     return res.status(200).json(blog)
 }
 
-async function deleteBlog(req,res,next){
+async function deleteBlog(req, res, next) {
     const user = req.user
     const id = req.params.id
-    try{
+    try {
         const blog = await Blog.findById(id)
-        if (user.id == blog.author){
-            await Blog.deleteOne({_id : id})
+        if (user.id == blog.author) {
+            await Blog.deleteOne({ _id: id })
             return res.status(200).json({
                 state: "true",
                 message: "Blog deleted successfully"
             })
-        }else{
+        } else {
             return res.status(403).json({
                 state: "false",
                 message: "You're not authorized to perform this action"
             })
         }
 
-    }catch(err){
+    } catch (err) {
         console.log(err)
         return res.status(403).json({
             state: "false",
             message: "Blog not found"
         })
     }
-    
+
 
 }
 
-async function updateBlog(req,res,next){
+async function updateBlog(req, res, next) {
     const user = req.user
     const id = req.params.id
     const newBlog = req.body
-    try{
+    try {
         const blog = await Blog.findById(id)
-        if (user.id == blog.author){
+        if (user.id == blog.author) {
             await Blog.findByIdAndUpdate(id, newBlog, { new: true })
             return res.status(200).json({
                 state: "true",
                 message: "Blog updated successfully"
             })
-        }else{
+        } else {
             return res.status(403).json({
                 state: "false",
                 message: "You're not authorized to perform this action"
             })
         }
 
-    }catch(err){
+    } catch (err) {
         return res.status(403).json({
             state: "false",
             message: "Blog not found"
@@ -149,14 +158,14 @@ async function updateBlog(req,res,next){
     }
 }
 
-async function getUserBlog(req,res){
-    try{
+async function getUserBlog(req, res) {
+    try {
         const limit = 20 || 100;
         const page = +req.query.page || 1;
         const skip = limit * (page - 1);
-        if (!req.query.state){
-            const blogs =  await Blog.find({ author: req.user.id }).skip(skip).limit(limit)
-            if (!blogs){
+        if (!req.query.state) {
+            const blogs = await Blog.find({ author: req.user.id }).skip(skip).limit(limit)
+            if (!blogs) {
                 return res.status(404).json({
                     status: "false",
                     message: "Blogs not found"
@@ -167,8 +176,8 @@ async function getUserBlog(req,res){
                 blogs
             })
         }
-        const blogs =  await Blog.find({ author: req.user.id , state: req.query.state}).skip(skip).limit(limit)
-        if (!blogs){
+        const blogs = await Blog.find({ author: req.user.id, state: req.query.state }).skip(skip).limit(limit)
+        if (!blogs) {
             return res.status(404).json({
                 status: "false",
                 message: "Blogs not found"
@@ -178,14 +187,14 @@ async function getUserBlog(req,res){
             status: "true",
             blogs
         })
-    }catch(error){
+    } catch (error) {
         return res.status(404).json({
             status: "false",
             message: "Internal Server Error"
         })
 
     }
-    
+
 }
 module.exports = {
     createBlog,

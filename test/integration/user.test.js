@@ -18,6 +18,7 @@ describe('User Route', () => {
         last_name: 'User',
         email: 'test@gmail.com',
         password: 'password',
+      
     }
 
     const response = await api
