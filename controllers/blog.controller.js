@@ -40,10 +40,33 @@ async function createBlog(req,res, next){
 
 async function getBlogs(req,res,next){
 
-    const limit = 20 ;
+    const limit = 20;
     const page = +req.query.page || 1;
     const skip = limit * (page - 1);
-    const blogs =  await Blog.find({state: 'published', author: req.findFilter.author}).skip(skip).limit(limit);
+    const author = req.query.author;
+    const title = req.query.title;
+    const tags = req.query.tags;
+    console.log(req.query)
+    const query = {state: "published"}
+    const sortQuery = {read_count: -1}
+    if (author) {
+        query["author"] = author
+    }
+    if (title){
+        query["title"] = title
+    }
+    if (tags){
+        query["tags"] = tags
+    }
+    // searchable by author, title and tags
+
+    //sortable  by read count, read time and timestamp.
+    const sort = req.query.sort;
+    if (sort.includes(["asc", "desc"])) {
+        sortQuery["timestamp"] = sort === "desc" ? -1 : 1;
+    }
+
+    const blogs =  await Blog.find(query).sort(sortQuery).skip(skip).limit(limit);
 
     // on hold
     return res.status(200).json({

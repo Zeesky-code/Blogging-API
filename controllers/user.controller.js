@@ -4,12 +4,15 @@ require('dotenv').config();
 
 async function userSignup(req,res,next){
     try{
-        res.json({
-            message: 'Signup successful',
-            user: req.user
+        res.status(201).json({
+            status: "true",
+            message: 'Signup successful'
         })
     }catch(error){
-        return next(err)
+        return res.status(400).josn({
+            status: "false",
+            message: "Signup failed"
+        })
     }
 
 } 
@@ -39,7 +42,10 @@ async function userLogin(req,res, next){
                 }
             )
         }catch(error){
-            return next(error);
+            return res.status(401).send({
+                status: "false",
+                message: "Login failed"
+            })
         }
     })(req, res, next);
     
