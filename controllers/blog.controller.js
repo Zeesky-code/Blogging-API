@@ -40,10 +40,10 @@ async function createBlog(req,res, next){
 
 async function getBlogs(req,res,next){
 
-    const limit = 20 || 100;
+    const limit = 20 ;
     const page = +req.query.page || 1;
     const skip = limit * (page - 1);
-    const blogs =  await Blog.find({state: 'published'}).skip(skip).limit(limit);
+    const blogs =  await Blog.find({state: 'published', author: req.findFilter.author}).skip(skip).limit(limit);
 
     // on hold
     return res.status(200).json({
@@ -158,7 +158,7 @@ async function getUserBlog(req,res){
     }catch(error){
         return res.status(404).json({
             status: "false",
-            error
+            message: "Internal Server Error"
         })
 
     }
