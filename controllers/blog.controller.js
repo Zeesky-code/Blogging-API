@@ -40,40 +40,54 @@ async function createBlog(req, res, next) {
 
 async function getBlogs(req, res, next) {
     try {
-        const { page, orderby, search } = req.query
+        const { page, sortBy, search, orderBy = 'asc' } = req.query
+        orderBy === "desc" ? orderIndex = -1 : orderIndex = 1
         const limit = 20
         const skip = (page - 1) * limit
 
-        if (orderby == 'timestamp') {
-            const blog = await Blog.find({ state: 'published' }).limit(limit).skip(skip).sort({ createdAt: 1 })
+        if (sortBy == 'timestamp') {
+            const blog = await Blog
+            .find({ state: 'published' }).limit(limit).skip(skip).sort({ createdAt: orderIndex })
             return res.status(200).send(blog)
         }
-        if (orderby == 'reading_time') {
-            const blog = await Blog.find({ state: 'published' }).limit(limit).skip(skip).sort({ reading_time: 1 })
+        if (sortBy == 'reading_time') {
+            const blog = await Blog
+            .find({ state: 'published' }).limit(limit).skip(skip).sort({ reading_time: orderIndex })
             return res.status(200).send(blog)
         }
-        if (orderby == 'read_count') {
-            const blog = await Blog.find({ state: 'published' }).limit(limit).skip(skip).sort({ read_count: 1 })
+        if (sortBy == 'read_count') {
+            const blog = await Blog
+            .find({ state: 'published' }).limit(limit).skip(skip).sort({ read_count: orderIndex })
             return res.status(200).send(blog)
         }
-        const blog = await Blog.find({ state: 'published' }).and({
-            $or: [
-                {
-                    title: { $regex: search, $options: "i" },
-                },
-                {
-                    author: { $regex: search, $options: "i" },
-                },
-                {
-                    tags: { $regex: search, $options: "i" },
-                }
-            ],
-        }).limit(limit).skip(skip)
-        return res.status(200).json({
-            status: "true",
-            blog
-        })
-    }catch(error){
+        if (search) {
+
+            const blog = await Blog
+            .find({ state: 'published' }).and({
+                $or: [
+                    {
+                        title: { $regex: search, $options: "i" },
+                    },
+                    {
+                        author: { $regex: search, $options: "i" },
+                    },
+                    {
+                        tags: { $regex: search, $options: "i" },
+                    }
+                ],
+            }).limit(limit).skip(skip)
+            return res.status(200).json({
+                status: "true",
+                blog
+            })
+        }
+        const blog = await Blog
+        .find({ state: 'published' }).limit(limit).skip(skip)
+        return res.status(200).json({ status: "true", blog })
+
+
+
+    } catch (error) {
         console.log(error)
         return res.status(404).json({
             status: "false",

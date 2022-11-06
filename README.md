@@ -1,4 +1,6 @@
 # Blogging API
+An API for a blog built with Node.js, ExpressJS and MongoDB
+
 
 ## Requirements
 - Users should have a first_name, last_name, email, password, (you can add other attributes you want to store about the user)
