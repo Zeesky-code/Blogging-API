@@ -6,9 +6,7 @@ const User = require('../../models/user.model')
 
 jest.setTimeout(30000);
 
-beforeAll(async()=>{
-  await User.findOneAndDelete({email: 'test@gmail.com'})
-})
+
 
 
 describe('User Route', () => {
@@ -59,6 +57,7 @@ describe('User Route', () => {
   })
 })
 
-afterAll(() => {
+afterAll( async () => {
+  await User.deleteOne({first_name: 'Test', last_name: 'User'})
   mongoose.connection.close()
 })

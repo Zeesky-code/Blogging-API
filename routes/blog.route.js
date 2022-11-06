@@ -2,10 +2,9 @@ const express = require('express');
 const blogRouter = express.Router()
 
 const auth =  require('../middlewares/auth')
-const utils =  require('../utils/utils')
 const blogController = require('../controllers/blog.controller')
 
-blogRouter.get('/', utils.filterBy, blogController.getBlogs)
+blogRouter.get('/', blogController.getBlogs)
 blogRouter.get('/userBlog', auth.protect, blogController.getUserBlog)
 blogRouter.get('/:id', blogController.getOneBlog)
 

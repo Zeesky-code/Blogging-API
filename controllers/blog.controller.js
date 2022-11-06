@@ -153,7 +153,7 @@ async function updateBlog(req, res, next) {
         const blog = await Blog.findById(id)
         if (user.id == blog.author) {
             await Blog.findByIdAndUpdate(id, newBlog, { new: true })
-            return res.status(200).json({
+            return res.status(201).json({
                 state: "true",
                 message: "Blog updated successfully"
             })
