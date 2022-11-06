@@ -1,0 +1,501 @@
+{
+	"info": {
+		"_postman_id": "437c8ecc-8793-4f11-a390-25d9e446722d",
+		"name": "Blogging API",
+		"description": "A REST API built with Node.js, ExpressJs and MongoDB",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_uid": "17104983-437c8ecc-8793-4f11-a390-25d9e446722d"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "User SignUp",
+					"id": "53d3f0a5-848c-42bc-bc41-68d4e835ee92",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "joker@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "first_name",
+									"value": "The",
+									"type": "text"
+								},
+								{
+									"key": "last_name",
+									"value": "joker",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "testpassword",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://wild-pink-sturgeon-cape.cyclic.app/user/signup",
+							"protocol": "https",
+							"host": [
+								"wild-pink-sturgeon-cape",
+								"cyclic",
+								"app"
+							],
+							"path": [
+								"user",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User LogIn",
+					"id": "86e0556c-82da-4972-ab8c-8fc0c6c6c479",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "tester@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "testpassword",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://wild-pink-sturgeon-cape.cyclic.app/user/login",
+							"protocol": "https",
+							"host": [
+								"wild-pink-sturgeon-cape",
+								"cyclic",
+								"app"
+							],
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "5440c151-471c-4381-9368-39ee2ed95620",
+			"description": "API endpoints for user authentication"
+		},
+		{
+			"name": "Blogs",
+			"item": [
+				{
+					"name": "Create Blog",
+					"id": "411afa9e-3a49-4507-9cc2-a7ccac6d989b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYzNjRhNGI2ZTg1MDQyYzNjNTg1NzI0YyIsImVtYWlsIjoidGVzdGVyQGdtYWlsLmNvbSJ9LCJpYXQiOjE2Njc1NjY0NDIsImV4cCI6MTY2NzU3MDA0Mn0.U3m0xaO1EkewTVZWP2BMkQyyWpXCaQbjnsXQoxFJO0U",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "title",
+									"value": "let's hope it works\n",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "I should study after this",
+									"type": "text"
+								},
+								{
+									"key": "body",
+									"value": "This is a very short api. There are few endpoints and it's easy to learn and I will write a very good documentation",
+									"type": "text"
+								},
+								{
+									"key": "tags",
+									"value": "school, work",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://wild-pink-sturgeon-cape.cyclic.app/blog/create",
+							"protocol": "https",
+							"host": [
+								"wild-pink-sturgeon-cape",
+								"cyclic",
+								"app"
+							],
+							"path": [
+								"blog",
+								"create"
+							]
+						}
+					},
+					"response": [
+						{
+							"id": "05a29399-19af-4e85-a33c-2f9a64592208",
+							"name": "Create Blog",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYzNjRhNGI2ZTg1MDQyYzNjNTg1NzI0YyIsImVtYWlsIjoidGVzdGVyQGdtYWlsLmNvbSJ9LCJpYXQiOjE2Njc1NjY0NDIsImV4cCI6MTY2NzU3MDA0Mn0.U3m0xaO1EkewTVZWP2BMkQyyWpXCaQbjnsXQoxFJO0U",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "title",
+											"value": "let's hope it works\n",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "I should study after this",
+											"type": "text"
+										},
+										{
+											"key": "body",
+											"value": "This is a very short api. There are few endpoints and it's easy to learn and I will write a very good documentation",
+											"type": "text"
+										},
+										{
+											"key": "tags",
+											"value": "school, work",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "https://wild-pink-sturgeon-cape.cyclic.app/blog/create?title=Example Blog&description=A short description about the blog&body=This is a shrot blog showing how to pass data in to the create blog route. It's very interesting to use.&state=published",
+									"protocol": "https",
+									"host": [
+										"wild-pink-sturgeon-cape",
+										"cyclic",
+										"app"
+									],
+									"path": [
+										"blog",
+										"create"
+									],
+									"query": [
+										{
+											"key": "title",
+											"value": "Example Blog",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "A short description about the blog",
+											"type": "text"
+										},
+										{
+											"key": "body",
+											"value": "This is a shrot blog showing how to pass data in to the create blog route. It's very interesting to use.",
+											"type": "text"
+										},
+										{
+											"key": "state",
+											"value": "published",
+											"description": "An optional parameter. Defaults to 'draft' if not provided",
+											"type": "text"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Get One Blog",
+					"id": "94a6dcf0-1498-4bbe-8099-272d8ca4fe3f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://wild-pink-sturgeon-cape.cyclic.app/blog/6364f8aaade541aad137821b",
+							"protocol": "https",
+							"host": [
+								"wild-pink-sturgeon-cape",
+								"cyclic",
+								"app"
+							],
+							"path": [
+								"blog",
+								"6364f8aaade541aad137821b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Blog",
+					"id": "73fb603c-57bc-4589-b098-d1e95ac7434d",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYzNjRhNGI2ZTg1MDQyYzNjNTg1NzI0YyIsImVtYWlsIjoidGVzdGVyQGdtYWlsLmNvbSJ9LCJpYXQiOjE2Njc1OTM5ODQsImV4cCI6MTY2NzU5NzU4NH0.6tOs-MgfnJjcnK4lAZUhx8Mcyqpx7gVhID2TaQ9aGnE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://wild-pink-sturgeon-cape.cyclic.app/blog/6365131ead5e25a2ccc4322c",
+							"protocol": "https",
+							"host": [
+								"wild-pink-sturgeon-cape",
+								"cyclic",
+								"app"
+							],
+							"path": [
+								"blog",
+								"6365131ead5e25a2ccc4322c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Blogs",
+					"id": "297b972c-61a6-4442-8aae-3ce30e7b915c",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://wild-pink-sturgeon-cape.cyclic.app/blog?sortBy=timestamp",
+							"protocol": "https",
+							"host": [
+								"wild-pink-sturgeon-cape",
+								"cyclic",
+								"app"
+							],
+							"path": [
+								"blog"
+							],
+							"query": [
+								{
+									"key": "author",
+									"value": "6364a4b6e85042c3c585724c",
+									"disabled": true
+								},
+								{
+									"key": "title",
+									"value": "Update Blog ",
+									"disabled": true
+								},
+								{
+									"key": "tags",
+									"value": "school",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "sortBy",
+									"value": "timestamp"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Blog",
+					"id": "255d80c4-a9ea-44d6-92d0-b00644030eae",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYzNjRhNGI2ZTg1MDQyYzNjNTg1NzI0YyIsImVtYWlsIjoidGVzdGVyQGdtYWlsLmNvbSJ9LCJpYXQiOjE2Njc1OTM5ODQsImV4cCI6MTY2NzU5NzU4NH0.6tOs-MgfnJjcnK4lAZUhx8Mcyqpx7gVhID2TaQ9aGnE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "title",
+									"value": "Update Blog 1",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "A test to see if the blogs can be updated",
+									"type": "text"
+								},
+								{
+									"key": "body",
+									"value": "It's like almost 12 am and I'm so tired but I have to pes etme",
+									"type": "text"
+								},
+								{
+									"key": "state",
+									"value": "published",
+									"type": "text"
+								},
+								{
+									"key": "tags",
+									"value": "school",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://wild-pink-sturgeon-cape.cyclic.app/blog/6365146aad5e25a2ccc43230",
+							"protocol": "https",
+							"host": [
+								"wild-pink-sturgeon-cape",
+								"cyclic",
+								"app"
+							],
+							"path": [
+								"blog",
+								"6365146aad5e25a2ccc43230"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User's Blog",
+					"id": "cd0e69d8-de01-4477-b433-95bbc394560e",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYzNjRhNGI2ZTg1MDQyYzNjNTg1NzI0YyIsImVtYWlsIjoidGVzdGVyQGdtYWlsLmNvbSJ9LCJpYXQiOjE2Njc2MzI2MTAsImV4cCI6MTY2NzYzNjIxMH0.KoNKAx2wr7OCdLI61MCU9lq2gw6I_qEugvVCE4QobSg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "https://wild-pink-sturgeon-cape.cyclic.app/blog/userBlog",
+							"protocol": "https",
+							"host": [
+								"wild-pink-sturgeon-cape",
+								"cyclic",
+								"app"
+							],
+							"path": [
+								"blog",
+								"userBlog"
+							],
+							"query": [
+								{
+									"key": "state",
+									"value": "draft",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "0c192716-0547-4d25-a608-52516bf3909a"
+		},
+		{
+			"name": "Home",
+			"id": "ab60f458-f26e-4521-ac86-e71c7d47f3fa",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://wild-pink-sturgeon-cape.cyclic.app",
+					"protocol": "https",
+					"host": [
+						"wild-pink-sturgeon-cape",
+						"cyclic",
+						"app"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
