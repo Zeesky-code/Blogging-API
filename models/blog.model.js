@@ -15,7 +15,7 @@ const blogSchema = new Schema({
     },
     body:{
         type: String,
-        require: true
+        required: true
     },
     tags:{
         type: [String],
@@ -35,7 +35,6 @@ const blogSchema = new Schema({
     }, 
     reading_time:{
         type: Number,
-
     },
     read_count:{
         type: Number,
