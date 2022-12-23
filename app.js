@@ -10,6 +10,7 @@ require('./middlewares/auth')
 //routes
 const userRoute = require('./routes/user.route')
 const blogRoute = require('./routes/blog.route')
+const commentRoute = require('./routes/comment.route')
 
 const app = express()
 
@@ -23,11 +24,12 @@ app.use(express.json())
 app.use(bodyParser.urlencoded({extended:false}))
 
 
-app.use(passport.initialize());
+
 
 
 app.use('/user', userRoute)
 app.use('/blog', blogRoute)
+app.use('/comments', commentRoute)
 
 app.get('/', (req,res)=>{
     res.status(200).json({

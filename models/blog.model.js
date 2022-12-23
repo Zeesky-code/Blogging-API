@@ -20,6 +20,12 @@ const blogSchema = new Schema({
     tags:{
         type: [String],
     },
+    comments:[
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Comment'
+        }
+    ],
     timestamp:{
         type: Date,
         default: Date.now()
