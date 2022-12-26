@@ -17,7 +17,9 @@ async function createComment(req,res,next){
 
         //adding comment to blog object
         const blogPost = await Blog.findById(newComment.postId)
-        blogPost.comments = blogPost.comments.concat(savedComment._id)
+
+
+        blogPost.comments = blogPost.comments.concat(savedComment.body)
         blogPost.save()
 
         res.status(201).json(savedComment);
@@ -26,8 +28,18 @@ async function createComment(req,res,next){
     }
 }
 
+async function getComments(req,res,next){
+    try{
+        const blogPost = await Blog.findById(req.params.id)
+
+        res.status(200).json(blogPost.comments)
+    }catch(error){
+        res.status(500).json({ message: error.message });
+    }
+}
 
 
 module.exports = {
-    createComment
+    createComment,
+    getComments
 }

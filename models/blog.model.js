@@ -22,7 +22,7 @@ const blogSchema = new Schema({
     },
     comments:[
         {
-            type: mongoose.Schema.Types.ObjectId,
+            type: String,
             ref: 'Comment'
         }
     ],

@@ -5,7 +5,7 @@ const auth =  require('../middlewares/auth')
 const commentController = require('../controllers/comment.controller')
 
 commentRouter.post('/:id', auth.protect, commentController.createComment)
-
+commentRouter.get('/:id', commentController.getComments)
 
 
 
