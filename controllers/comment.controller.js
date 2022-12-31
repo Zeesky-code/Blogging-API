@@ -38,8 +38,36 @@ async function getComments(req,res,next){
     }
 }
 
+async function deleteComment(req,res,next){
+    const user = req.user
+    const id = req.params.id
+    try {
+        const comment = await Comment.findById(id)
+        if (user.id == comment.author) {
+            await Comment.deleteOne({ _id: id })
+            return res.status(200).json({
+                state: "true",
+                message: "Comment deleted successfully"
+            })
+        } else {
+            return res.status(403).json({
+                state: "false",
+                message: "You're not authorized to perform this action"
+            })
+        }
+
+    } catch (err) {
+        console.log(err)
+        return res.status(404).json({
+            state: "false",
+            message: "Comment not found"
+        })
+    }
+
+}
 
 module.exports = {
     createComment,
-    getComments
+    getComments,
+    deleteComment
 }

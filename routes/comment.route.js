@@ -6,6 +6,7 @@ const commentController = require('../controllers/comment.controller')
 
 commentRouter.post('/:id', auth.protect, commentController.createComment)
 commentRouter.get('/:id', commentController.getComments)
+commentRouter.delete('/:id', auth.protect,commentController.deleteComment )
 
 
 

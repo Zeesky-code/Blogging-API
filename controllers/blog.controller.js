@@ -137,7 +137,7 @@ async function deleteBlog(req, res, next) {
 
     } catch (err) {
         console.log(err)
-        return res.status(403).json({
+        return res.status(404).json({
             state: "false",
             message: "Blog not found"
         })
