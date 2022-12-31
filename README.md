@@ -61,9 +61,9 @@ An API for a blog built with Node.js, ExpressJS and MongoDB
 ```
 {
   "email": "user@example.com",
-  "firstname": "Test",
-  "lastname": "User",
-  "password": "Password123",
+  "first_name": "Test",
+  "last_name": "User",
+  "password": "Password123"
   
 }
 ```
@@ -74,7 +74,7 @@ Success
 ```
 {
     state: "true",
-    message: 'Signup successful',
+    message: 'Signup successful'
    
 }
 ```
@@ -87,7 +87,7 @@ Success
 ```
 {
     "email": 'user@example.com",
-    "password": "Password123",
+    "password": "Password123"
   
 }
 ```
@@ -113,10 +113,10 @@ Success
 ```
 {
 
-  title: "JS- The Good, The Bad and The Ugly",
-  description: "A short blog about the postives and negatives of JavaScript",
-  tags: ["tech"],
-  body: "This is a test blog, let's see what it prints."
+  "title": "JS- The Good, The Bad and The Ugly",
+  "description": "A short blog about the postives and negatives of JavaScript",
+  "tags": ["tech"],
+  "body": "This is a test blog, let's see what it prints."
 }
 ```
 
@@ -232,13 +232,13 @@ Success
 - Body: 
 ```
 {
-    title: "Test Blog",
-    description: "This is a simple blog to test if this endpoint works",
-    body: `Hi, I'm zainab and I would really liek to becoem a backend end dev.
+    "title": "Test Blog",
+    "description": "This is a simple blog to test if this endpoint works",
+    "body": "Hi, I'm zainab and I would really liek to becoem a backend end dev.
             I'm an altschool studnet and we've been learning cool stuff. 
             Can you believe I just learnt how to write JS and I'm now writing
-            tests and building an API. I feel so happy.`,
-    tags: "school"
+            tests and building an API. I feel so happy.",
+    "tags": "school"
 }
 ```
 
