@@ -1,0 +1,6 @@
+## things to add to this project
+
+- API documentation with Swagger
+- Logging
+- Rate control (?)
+- Edit api responses to fit with best practices
