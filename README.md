@@ -23,6 +23,8 @@ An API for a blog built with Node.js, ExpressJS and MongoDB
 - Blogs created should have title, description, tags, author, timestamp, state, read_count, reading_time and body.
 - The list of blogs endpoint that can be accessed by both logged in and not logged in users should be paginated, default it to 20 blogs per page. 
 
+## Rate Limit
+API requests are limited to 20 requests per 15 minutes.
 ## Data Models
 ---
 
