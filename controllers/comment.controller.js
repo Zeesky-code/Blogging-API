@@ -1,5 +1,3 @@
-const passport = require('passport');
-const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 const Comment = require('../models/comment.model')

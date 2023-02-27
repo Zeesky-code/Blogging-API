@@ -142,8 +142,6 @@ async function deleteBlog(req, res, next) {
             message: "Blog not found"
         })
     }
-
-
 }
 
 async function updateBlog(req, res, next) {
