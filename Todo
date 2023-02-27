@@ -2,5 +2,5 @@
 
 - API documentation with Swagger
 - Logging
-- Rate control (?)
+- Rate control (?) - done
 - Edit api responses to fit with best practices
