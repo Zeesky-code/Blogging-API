@@ -32,38 +32,11 @@ const limiter = rateLimit({
 // Apply the rate limiting middleware to all requests
 app.use(limiter)
 
-//defining swagger options
-const options = {
-    definition: {
-        openapi: "3.1.0",
-        swagger: "2.0",
-        info: {
-            title: "Blogging API",
-            version: "1.0.0",
-            description: "An API for a blog built with Node.js, ExpressJS and MongoDB",
-            contact: {
-                name: "Zainab Lawal",
-                email: "zainablaw1012@gmail.com"
-            }
 
-        },
-        servers: [
-            {
-                url: "http://localhost:9000",
-                liveurl: "https://wild-pink-sturgeon-cape.cyclic.app/"
-            },
-        ],
-    },
-    apis: ["./routes/*.js"],
-};
+const swaggerDocument = require('./swagger.json');
 
-const specs = swaggerJsdoc(options);
-app.use(
-    "/api-docs",
-    swaggerUi.serve,
-    swaggerUi.setup(specs)
-);
-
+// let express to use this
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use(passport.initialize());
 app.use(express.json())

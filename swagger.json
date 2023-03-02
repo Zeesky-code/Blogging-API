@@ -1,0 +1,51 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Blogging API",
+        "version": "1.0.0",
+        "description": "An API for a blog built with Node.js, ExpressJS and MongoDB",
+        "contact": {
+            "name": "Zainab Lawal",
+            "email": "zainablaw1012@gmail.com"
+        }
+
+    },
+    "schemes": ["http"],
+    "host": "localhost:9000",
+    "basePath": "/",
+    "paths": {
+        "/blog": {
+            "get": {
+                "summary": "Get all blogs",
+                "description": "Get all published blogs",
+                "tags":[ "Blog"],
+                "produces": ["application/json"],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "status": "true",
+                                "blogs":{
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid status value",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "status": "false",
+                                "message": "Blog not Found"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+}
+    
