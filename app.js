@@ -4,7 +4,7 @@ const passport = require('passport')
 const rateLimit = require('express-rate-limit')
 const swaggerJsdoc = require("swagger-jsdoc")
 const swaggerUi = require("swagger-ui-express")
-
+const winston = require('winston');
 require('dotenv').config()
 
 //import authentication middleware
@@ -19,7 +19,7 @@ const app = express()
 
 //set up db connection
 const { connectToMongoDB } = require('./config/db')
-connectToMongoDB()
+//connectToMongoDB()
 
 //set up rate limiting
 const limiter = rateLimit({
@@ -32,6 +32,15 @@ const limiter = rateLimit({
 // Apply the rate limiting middleware to all requests
 app.use(limiter)
 
+//logging with winston
+const logConfiguration = {
+    'transports': [
+        new winston.transports.Console()
+    ]
+};
+const logger = winston.createLogger(logConfiguration);
+
+logger.info('Hello, Winston!');
 
 const swaggerDocument = require('./swagger.json');
 
