@@ -1,5 +1,6 @@
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
+const logger = require('../utils/logger');
 require('dotenv').config();
 
 const Blog = require('../models/blog.model')
@@ -29,6 +30,7 @@ async function createBlog(req, res, next) {
             message: "Blog saved successfully",
             savedBlog
         })
+        
     } catch {
         res.status(400).json({
             "state": "false",
@@ -84,8 +86,9 @@ async function getBlogs(req, res, next) {
         }
         const blog = await Blog
         .find({ state: 'published' }).limit(limit).skip(skip)
+        logger.info(`Blogs ${blog} accessed`)
         return res.status(200).json({ status: "true", blog })
-
+        
 
 
     } catch (error) {
