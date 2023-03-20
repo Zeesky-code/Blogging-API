@@ -92,7 +92,7 @@ async function getBlogs(req, res, next) {
 
 
     } catch (error) {
-        console.log(error)
+        logger.error(`Error: ${error} when trying to get all blogs`)
         return res.status(404).json({
             status: "false",
             message: "Blog not Found"
@@ -139,7 +139,7 @@ async function deleteBlog(req, res, next) {
         }
 
     } catch (err) {
-        console.log(err)
+        logger.error(`Error: ${err} when trying to get delete a blog by ${user}`)
         return res.status(404).json({
             state: "false",
             message: "Blog not found"
@@ -167,6 +167,7 @@ async function updateBlog(req, res, next) {
         }
 
     } catch (err) {
+        logger.error(`Error: ${err} when trying to get update a blog by ${user}`)
         return res.status(403).json({
             state: "false",
             message: "Blog not found"
@@ -204,6 +205,7 @@ async function getUserBlog(req, res) {
             blogs
         })
     } catch (error) {
+        logger.error(`Error: ${error} when trying to get get a user's blog by ${user}`)
         return res.status(404).json({
             status: "false",
             message: "Internal Server Error"
