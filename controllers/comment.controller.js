@@ -1,5 +1,5 @@
 require('dotenv').config();
-
+const logger = require('../utils/logger');
 const Comment = require('../models/comment.model')
 const Blog = require('../models/blog.model')
 
@@ -22,6 +22,7 @@ async function createComment(req,res,next){
 
         res.status(201).json(savedComment);
     } catch (error) {
+        logger.error(`Error: ${error} when trying to create a commnont on a user's blog with id ${req.params.id}`)
         res.status(500).json({ message: error.message });
     }
 }
@@ -32,6 +33,7 @@ async function getComments(req,res,next){
 
         res.status(200).json(blogPost.comments)
     }catch(error){
+        logger.error(`Error: ${error} when trying to get comments on a user's blog with id ${req.params.id}`)
         res.status(500).json({ message: error.message });
     }
 }
@@ -55,7 +57,7 @@ async function deleteComment(req,res,next){
         }
 
     } catch (err) {
-        console.log(err)
+        logger.error(`Error: ${error} when trying to delete a comment with id ${req.params.id}`)
         return res.status(404).json({
             state: "false",
             message: "Comment not found"
